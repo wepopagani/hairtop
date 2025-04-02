@@ -1,9 +1,8 @@
-import React, { useState } from 'react';
-import { Menu, X, Scissors, Star, MapPin, Instagram } from 'lucide-react';
+import { useState } from 'react';
+import { Menu, X,  Star,  Instagram } from 'lucide-react';
 import { Link } from 'react-scroll';
-import { BookingForm } from './components/BookingForm';
 import { GalleryModal } from './components/GalleryModal';
-import { LanguageSelector } from './components/LanguageSelector';
+import { LanguageSwitcher } from './components/LanguageSwitcher';
 import { motion } from 'framer-motion';
 import { useTranslation } from 'react-i18next';
 import './i18n';
@@ -12,74 +11,74 @@ const services = [
   { 
     category: "Piega", 
     items: [
-      { name: "Piega (35 min - 50 min)", price: "35.00" },
-      { name: "Piega The Lux (1 ora)", price: "50.00" }
+      { name: "Piega", price: "35.00" },
+      { name: "Piega The Lux", price: "50.00" }
     ]
   },
   { 
-    category: "Trattamenti Specifici per Capelli", 
+    category: "Trattamenti", 
     items: [
-      { name: "Trattamento Capelli (15 min)", price: "15.00" },
-      { name: "Trattamento alla Cheratina (3 ore e 30 min)", price: "200.00" },
-      { name: "Laminazione Capelli (55 min)", price: "75.00" },
-      { name: "Trattamento Botox (45 min)", price: "25.00" },
-      { name: "Fusia Dose (20 min)", price: "25.00" }
+      { name: "Trattamento Capelli", price: "15.00" },
+      { name: "Trattamento alla Cheratina", price: "200.00" },
+      { name: "Laminazione Capelli", price: "75.00" },
+      { name: "Trattamento Botox", price: "25.00" },
+      { name: "Fusia Dose", price: "25.00" }
     ]
   },
   { 
     category: "Taglio", 
     items: [
-      { name: "Taglio (40 min)", price: "40.00" },
-      { name: "Cut & Go (40 min)", price: "60.00" }
+      { name: "Taglio", price: "40.00" },
+      { name: "Cut & Go", price: "60.00" }
     ]
   },
   { 
     category: "Colore", 
     items: [
-      { name: "Colore (50 min)", price: "60.00" },
-      { name: "Riflessante (15 min)", price: "25.00" },
-      { name: "Colore Fresh (15 min)", price: "20.00" },
-      { name: "Color Watch (15 min)", price: "10.00" }
+      { name: "Colore", price: "60.00" },
+      { name: "Riflessante", price: "25.00" },
+      { name: "Colore Fresh", price: "20.00" },
+      { name: "Color Watch", price: "10.00" }
     ]
   },
   { 
-    category: "Effetti Luce", 
+    category: "Effetti", 
     items: [
-      { name: "Meches (2 ore e 15 min)", price: "100.00" },
-      { name: "Balayage e Bagno di Colore (2 ore)", price: "100.00" },
-      { name: "Decolorazione (1 ora)", price: "50.00", prefix: "da" }
+      { name: "Meches", price: "100.00" },
+      { name: "Balayage Bagno Colore", price: "100.00" },
+      { name: "Decolorazione", price: "50.00", prefix: "da" }
     ]
   },
   { 
     category: "Trattamento Forma", 
     items: [
-      { name: "Permanente (2 ore)", price: "67.00" },
-      { name: "Stiratura (1 ora)", price: "74.00" },
-      { name: "Raccolto (1 ora)", price: "65.00" }
+      { name: "Permanente", price: "67.00" },
+      { name: "Stiratura", price: "74.00" },
+      { name: "Raccolto", price: "65.00" }
     ]
   },
   { 
-    category: "Taglio e Acconciature Bambini e Teenager", 
+    category: "Bambini", 
     items: [
-      { name: "Taglio Bambina (0 a 10 anni) (30 min)", price: "26.00" },
-      { name: "Taglio Ragazze (11 a 17 anni) (50 min)", price: "56.00" },
-      { name: "Taglio Bambino (0 a 10 anni) (20 min)", price: "20.00" }
+      { name: "Taglio Bambina", price: "26.00" },
+      { name: "Taglio Ragazze", price: "56.00" },
+      { name: "Taglio Bambino", price: "20.00" }
     ]
   },
   { 
-    category: "Barba e Capelli Uomo", 
+    category: "Uomo", 
     items: [
-      { name: "Taglio Capelli e Barba (1 ora e 15 min)", price: "65.00" },
-      { name: "Taglio Uomo con Forbici (45 min)", price: "45.00" },
-      { name: "Taglio Uomo con Macchinetta (30 min)", price: "35.00" },
-      { name: "Barba The Lux (30 min)", price: "35.00" },
-      { name: "Barba Daily (25 min)", price: "22.00" },
-      { name: "Rasatura Testa Uomo (15 min)", price: "15.00" },
-      { name: "Colore Barba (45 min)", price: "15.00" },
-      { name: "Colore Uomo (40 min)", price: "45.00" },
-      { name: "Toner Grigio Uomo (25 min)", price: "20.00" },
-      { name: "Rifinitura Baffi (15 min)", price: "7.00" },
-      { name: "Stiratura Capelli Uomo (50 min)", price: "40.00" }
+      { name: "Taglio Capelli Barba", price: "65.00" },
+      { name: "Taglio Uomo Forbici", price: "45.00" },
+      { name: "Taglio Uomo Macchinetta", price: "35.00" },
+      { name: "Barba The Lux", price: "35.00" },
+      { name: "Barba Daily", price: "22.00" },
+      { name: "Rasatura Testa", price: "15.00" },
+      { name: "Colore Barba", price: "15.00" },
+      { name: "Colore Uomo", price: "45.00" },
+      { name: "Toner Grigio", price: "20.00" },
+      { name: "Rifinitura Baffi", price: "7.00" },
+      { name: "Stiratura Uomo", price: "40.00" }
     ]
   }
 ];
@@ -151,10 +150,11 @@ function App() {
                 <Link to="contact" smooth={true} className="cursor-pointer px-3 py-2">{t('nav.contact')}</Link>
               </div>
               <div className="ml-6">
-                <LanguageSelector />
+                <LanguageSwitcher />
               </div>
             </div>
-            <div className="md:hidden">
+            <div className="md:hidden flex items-center space-x-4">
+              <LanguageSwitcher />
               <button onClick={() => setIsMenuOpen(!isMenuOpen)}>
                 {isMenuOpen ? <X /> : <Menu />}
               </button>
@@ -172,9 +172,6 @@ function App() {
               <Link to="reviews" smooth={true} className="block px-3 py-2">{t('nav.reviews')}</Link>
               <Link to="prices" smooth={true} className="block px-3 py-2">{t('nav.prices')}</Link>
               <Link to="contact" smooth={true} className="block px-3 py-2">{t('nav.contact')}</Link>
-            </div>
-            <div className="px-5 pb-3">
-              <LanguageSelector />
             </div>
           </div>
         )}
@@ -272,7 +269,7 @@ function App() {
             transition={{ duration: 0.8 }}
             viewport={{ once: true }}
           >
-            La Nostra Galleria
+            {t('gallery.title')}
           </motion.h2>
           <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
             {[1, 2, 3, 4, 5, 6].map((i) => (
@@ -305,7 +302,7 @@ function App() {
                 onClick={() => setIsGalleryOpen(true)}
                 className="inline-flex items-center justify-center bg-[rgb(25,24,25)] text-white px-8 py-3 rounded-full hover:bg-[rgb(35,34,35)] transition"
               >
-                Vedi tutte le foto
+                {t('gallery.viewAll')}
               </button>
             </motion.div>
             <a 
@@ -315,7 +312,7 @@ function App() {
               className="inline-flex items-center text-gray-600 hover:text-[rgb(25,24,25)]"
             >
               <Instagram className="w-5 h-5 mr-2" />
-              Seguici su Instagram
+              {t('gallery.follow')}
             </a>
           </motion.div>
         </div>
@@ -331,7 +328,7 @@ function App() {
             transition={{ duration: 0.8 }}
             viewport={{ once: true }}
           >
-            Recensioni
+            {t('reviews.title')}
           </motion.h2>
           <div className="grid md:grid-cols-2 gap-x-16 gap-y-12">
             {reviews.map((review, index) => (
@@ -344,12 +341,16 @@ function App() {
                 className="text-center"
               >
                 <div className="flex justify-center mb-4">
-                  {[...Array(review.stars)].map((_, i) => (
-                    <Star key={i} className="w-5 h-5 text-yellow-400 fill-current mx-0.5" />
+                  {[...Array(5)].map((_, i) => (
+                    <Star key={i} className="w-5 h-5 text-yellow-400 fill-current" />
                   ))}
                 </div>
-                <p className="text-gray-300 mb-4 italic text-lg">"{review.text}"</p>
-                <p className="font-bold text-white uppercase tracking-wider">{review.name}</p>
+                <p className="text-gray-300 italic mb-4">
+                  "{t(`reviews.reviews.${review.name.toLowerCase()}`)}"
+                </p>
+                <p className="text-white tracking-wider uppercase">
+                  {review.name}
+                </p>
               </motion.div>
             ))}
           </div>
@@ -366,60 +367,74 @@ function App() {
             transition={{ duration: 0.8 }}
             viewport={{ once: true }}
           >
-            Listino Prezzi
+            {t('prices.title')}
           </motion.h2>
           <div className="space-y-16">
-            {services.map((category, index) => (
-              <motion.div
-                key={index}
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.5, delay: index * 0.2 }}
-                viewport={{ once: true }}
-              >
-                <h3 className="text-2xl font-bold mb-8 text-white text-center">{category.category}</h3>
-                <div className="space-y-4">
-                  {category.items.map((service, serviceIndex) => (
-                    <motion.div
-                      key={serviceIndex}
-                      initial={{ opacity: 0, x: -20 }}
-                      whileInView={{ opacity: 1, x: 0 }}
-                      transition={{ duration: 0.5, delay: serviceIndex * 0.1 }}
-                      viewport={{ once: true }}
-                      className="flex justify-between items-center border-b border-gray-700 pb-3 text-gray-300"
-                    >
-                      <div className="flex items-center">
-                        <span>{service.name.replace('Std.', 'h').replace('Min.', 'min')}</span>
-                      </div>
-                      <div className="flex items-center">
-                        <span className="text-white">
-                          {service.prefix && <span className="mr-1">{service.prefix} </span>}
-                          CHF {service.price}
-                        </span>
-                        <Link 
-                          to="booking" 
-                          smooth={true}
-                          className="ml-4 text-[rgb(139,185,185)] hover:text-[rgb(159,205,205)] transition cursor-pointer"
+            {services.map((category, index) => {
+              const categoryKey = category.category
+                .toLowerCase()
+                .replace(/[^a-z]/g, '');
+
+              return (
+                <motion.div
+                  key={index}
+                  initial={{ opacity: 0, y: 20 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.5, delay: index * 0.2 }}
+                  viewport={{ once: true }}
+                >
+                  <h3 className="text-2xl font-bold mb-8 text-white text-center">
+                    {t(`services.categories.${categoryKey}`)}
+                  </h3>
+                  <div className="space-y-4">
+                    {category.items.map((service, serviceIndex) => {
+                      const serviceKey = service.name
+                        .toLowerCase()
+                        .replace(/\s+/g, '')
+                        .replace(/[^a-z]/g, '');
+
+                      return (
+                        <motion.div
+                          key={serviceIndex}
+                          initial={{ opacity: 0, x: -20 }}
+                          whileInView={{ opacity: 1, x: 0 }}
+                          transition={{ duration: 0.5, delay: serviceIndex * 0.1 }}
+                          viewport={{ once: true }}
+                          className="flex justify-between items-center border-b border-gray-700 pb-3 text-gray-300"
                         >
-                          Prenota
-                        </Link>
-                      </div>
-                    </motion.div>
-                  ))}
-                </div>
-              </motion.div>
-            ))}
+                          <div className="flex items-center">
+                            <span>{t(`services.items.${serviceKey}`)}</span>
+                          </div>
+                          <div className="flex items-center">
+                            <span className="text-white">
+                              {service.prefix && <span className="mr-1">{service.prefix} </span>}
+                              CHF {service.price}
+                            </span>
+                            <Link 
+                              to="booking" 
+                              smooth={true}
+                              className="ml-4 text-[rgb(139,185,185)] hover:text-[rgb(159,205,205)] transition cursor-pointer"
+                            >
+                              {t('services.book')}
+                            </Link>
+                          </div>
+                        </motion.div>
+                      );
+                    })}
+                  </div>
+                </motion.div>
+              );
+            })}
           </div>
         </div>
       </section>
 
-      {/* Sezione Calendario */}
+      {/* Booking Section */}
       <section id="booking" className="bg-white py-16">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <h2 className="text-4xl font-serif text-center mb-12">Prenota un Appuntamento</h2>
+          <h2 className="text-4xl font-serif text-center mb-12">{t('booking.title')}</h2>
           <div className="max-w-3xl mx-auto bg-[rgb(25,24,25)] text-white rounded-2xl p-8 shadow-2xl">
-            {/* Qui andrà il componente calendario che implementeremo */}
-            <p className="text-center text-gray-400">Sistema di prenotazione in arrivo...</p>
+            <p className="text-center text-gray-400">{t('booking.coming')}</p>
           </div>
         </div>
       </section>
@@ -464,9 +479,8 @@ function App() {
                   </ul>
                 </div>
                 <div>
-                  <h3 className="text-lg font-bold mb-4">Contatti</h3>
+                  <h3 className="text-lg font-bold mb-4">{t('footer.contacts')}</h3>
                   <ul className="space-y-2 text-gray-400">
-
                     <li>
                       <a href="tel:076 743 51 21" className="flex items-center hover:text-white transition">
                         <span className="mr-2">📞</span>
@@ -482,7 +496,7 @@ function App() {
                   </ul>
                 </div>
                 <div>
-                  <h3 className="text-lg font-bold mb-4">Seguici</h3>
+                  <h3 className="text-lg font-bold mb-4">{t('footer.follow')}</h3>
                   <div className="flex space-x-4">
                     <a 
                       href="https://www.instagram.com/hairtoplugano_/"
